@@ -20,20 +20,33 @@ public class PhonebookUser implements UserDetails {
 
 
 
+    public PhonebookUser(String username,
+                         String password,
+                         String fullName,
+                         Collection<? extends  GrantedAuthority> authorities){
+        this(null,username,password,fullName,authorities);
+    }
 
     public PhonebookUser(Long id, String username,
                          String password,
                          String fullName,
                          Collection<? extends  GrantedAuthority> authorities){
+
+        if(authorities == null)
+            throw new IllegalArgumentException("The authorities can't be null");
+
         this.id = id;
         this.username = username;
+        this.password =  password;
         this.fullName = fullName;
         this.authorities = authorities;
     }
 
+
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return authorities;
     }
 
     public Long getId() {
@@ -73,4 +86,30 @@ public class PhonebookUser implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof PhonebookUser)) return false;
+
+        PhonebookUser that = (PhonebookUser) o;
+
+        if (getId() != null ? !getId().equals(that.getId()) : that.getId() != null) return false;
+        if (!getPassword().equals(that.getPassword())) return false;
+        if (!getUsername().equals(that.getUsername())) return false;
+        if (!getFullName().equals(that.getFullName())) return false;
+        return !(getAuthorities() != null ? !getAuthorities().equals(that.getAuthorities()) : that.getAuthorities() != null);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = getId() != null ? getId().hashCode() : 0;
+        result = 31 * result + getPassword().hashCode();
+        result = 31 * result + getUsername().hashCode();
+        result = 31 * result + getFullName().hashCode();
+        result = 31 * result + (getAuthorities() != null ? getAuthorities().hashCode() : 0);
+        return result;
+    }
+
 }

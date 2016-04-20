@@ -1,0 +1,13 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-war" name="SpringPhonebook:Web exploded">
+    <output-path>$PROJECT_DIR$/out/artifacts/SpringPhonebook_Web_exploded</output-path>
+    <root id="root">
+      <element id="javaee-facet-resources" facet="SpringPhonebook/web/Web" />
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="module-output" name="SpringPhonebook" />
+        </element>
+      </element>
+    </root>
+  </artifact>
+</component>

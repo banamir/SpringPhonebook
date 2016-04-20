@@ -2,10 +2,13 @@ package com.banamir.phonebook.controller;
 
 import com.banamir.phonebook.model.PhonebookEntry;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.naming.Binding;
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Map;
 
@@ -13,26 +16,26 @@ import java.util.Map;
 @RequestMapping("/entry")
 public class PhonebookEntryController {
 
-    @RequestMapping(value = "/get", method = RequestMethod.GET)
+    @RequestMapping(value = "/getEntry", method = RequestMethod.GET)
     List<PhonebookEntry> get(@RequestParam Map<String,String> filters){
         //TODO: implement this
         return null;
     }
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    PhonebookEntry add(PhonebookEntry entry){
+    PhonebookEntry add(@Valid PhonebookEntry entry){
         //TODO: implement this
         return null;
     }
 
     @RequestMapping(value = "/update", method = RequestMethod.PUT)
-    PhonebookEntry update(PhonebookEntry entry){
+    PhonebookEntry update(@Valid PhonebookEntry entry, BindingResult binding){
         //TODO: implement this
         return null;
     }
 
     @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
-    Long delete(PhonebookEntry entry){
+    Long delete(@Valid PhonebookEntry entry){
         //TODO: implement this
         return null;
     }

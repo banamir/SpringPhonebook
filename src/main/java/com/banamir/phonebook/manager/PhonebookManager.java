@@ -6,12 +6,14 @@ import com.banamir.phonebook.model.PhonebookUser;
 import java.util.Collection;
 import java.util.Map;
 
-/**
- * Created by qween on 18.04.16.
- */
+
 public interface PhonebookManager {
 
     public Collection<PhonebookEntry> entries(PhonebookUser user, Map<String,String> filters);
+
+    public Collection<PhonebookEntry> entries(PhonebookUser user);
+
+    public PhonebookEntry getEntry(Long id);
 
     public PhonebookEntry addEntry(PhonebookEntry entry);
 

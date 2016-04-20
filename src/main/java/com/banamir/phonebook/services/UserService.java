@@ -4,7 +4,6 @@ import com.banamir.phonebook.manager.UserManager;
 import com.banamir.phonebook.model.PhonebookUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -12,15 +11,13 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.provisioning.UserDetailsManager;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-@Component
+@Service
 public class UserService implements UserDetailsManager, UserDetailsService {
 
     @Autowired
     private UserManager userManager;
-
-    private AuthenticationManager authenticationManager;
 
     @Override
     public void createUser(UserDetails userDetails) {
@@ -54,7 +51,7 @@ public class UserService implements UserDetailsManager, UserDetailsService {
 
         PhonebookUser user = userManager.getUserByUsername(username);
 
-        userManager.deleteUser(user);
+        if(user != null) userManager.deleteUser(user);
 
     }
 
@@ -73,21 +70,16 @@ public class UserService implements UserDetailsManager, UserDetailsService {
 
         PhonebookUser user =  userManager.getUserByUsername(username);
 
-        // If an authentication manager has been set, re-authenticate the user with the supplied password.
-        if (authenticationManager != null) {
-            //logger.debug("Reauthenticating user '"+ username + "' for password change request.");
+        if(user == null)
+            throw new AccessDeniedException("The current user not founded in the system");
 
-            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, oldPassword));
-        } else {
-            //logger.debug("No authentication manager set. Password won't be re-checked.");
-        }
+        if(user.getPassword() != oldPassword)
+            throw new AccessDeniedException("The old password not matches whith the stored in the system");
 
-        //logger.debug("Changing password for user '"+ username + "'");
-
-        this.updateUser(new PhonebookUser(user.getId(),user.getUsername(),user.getFullName(),newPassword,user.getAuthorities()));
+        user = userManager.updateUser(new PhonebookUser(user.getId(),user.getUsername(),newPassword,user.getFullName(),user.getAuthorities()));
 
         UsernamePasswordAuthenticationToken newAuthentication =
-                new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
+                new UsernamePasswordAuthenticationToken(user, user.getPassword(), user.getAuthorities());
         newAuthentication.setDetails(currentUser.getDetails());
 
         SecurityContextHolder.getContext().setAuthentication(newAuthentication);
@@ -107,11 +99,6 @@ public class UserService implements UserDetailsManager, UserDetailsService {
         if(user == null) throw new UsernameNotFoundException("Can't find the user");
 
         return user;
-    }
-
-
-    public void setAuthenticationManager(AuthenticationManager authenticationManager) {
-        this.authenticationManager = authenticationManager;
     }
 
     public void setUserManager(UserManager userManager) {
