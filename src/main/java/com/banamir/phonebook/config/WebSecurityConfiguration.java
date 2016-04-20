@@ -24,14 +24,19 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .anyRequest().authenticated()
                 .antMatchers("/public").permitAll()
+                .antMatchers("/static").permitAll()
                 .and()
             .formLogin()
                 .loginPage("/login")
+                .usernameParameter("j_username").passwordParameter("j_password")
+                .failureUrl("/login?error")
+                .defaultSuccessUrl("/phonebook")
+                .loginProcessingUrl("/static/j_spring_security_check")
                 .permitAll()
                 .and()
             .logout()
-                .logoutUrl("/logout")
-                .logoutSuccessUrl("/logout/success");
+                .logoutUrl("/static/logout")
+                .logoutSuccessUrl("/logout");
 
     }
 }
