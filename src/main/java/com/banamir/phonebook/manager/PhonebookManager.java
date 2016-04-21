@@ -9,7 +9,7 @@ import java.util.Map;
 
 public interface PhonebookManager {
 
-    public Collection<PhonebookEntry> entries(PhonebookUser user, Map<String,String> filters);
+    public Collection<PhonebookEntry> entries(PhonebookUser user, String filter);
 
     public Collection<PhonebookEntry> entries(PhonebookUser user);
 

@@ -11,6 +11,10 @@
 <head>
     <title>Registration of user</title>
 </head>
+
+<link rel="stylesheet" href="public/bootstrap/css/bootstrap-min.css" media="screen" type="text/css" />
+<link rel="stylesheet" href="public/css/login.css" media="screen" type="text/css" />
+
 <body>
 
 <c:if test=""></c:if>

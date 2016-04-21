@@ -1,24 +1,39 @@
 package com.banamir.phonebook.model;
 
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+
 public class PhonebookEntry {
 
     Long id;
 
     PhonebookUser user;
 
+    @Size(min = 4)
+    @NotNull
     private String firstName;
 
+    @Size(min = 4)
+    @NotNull
     private String middleName;
 
+    @Size(min = 4)
+    @NotNull
     private String lastName;
 
+
+    @NotNull
+    @Pattern(regexp = "^(\\+38)?0(\\(\\d{2}\\)|\\d{2})\\d{7}$", message = "Wrong format of phone number")
     private String mobilePhone;
 
+    @Pattern(regexp = "^(\\+38)?0(\\(\\d{2}\\)|\\d{2})\\d{7}$", message = "Wrong format of phone number")
     private String homePhone;
 
     private String address;
 
+    @Pattern(regexp = "^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$", message = "Wrong email address")
     private String email;
 
     public Long getId() {

@@ -22,9 +22,9 @@ public class PhonebookService {
     @Autowired
     UserService userService;
 
-    public Collection<PhonebookEntry> list(Map<String,String> filters){
+    public Collection<PhonebookEntry> list(String filter){
 
-        return  manager.entries(getUser(),filters);
+        return  manager.entries(getUser(),filter);
     }
 
     public PhonebookEntry create(PhonebookEntry entry){
