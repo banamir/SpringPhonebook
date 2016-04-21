@@ -22,7 +22,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 public class UserServiceTest extends PhonebookUserTest {
 
-    protected final static UserDetails
+    public final static UserDetails
         u1 = new PhonebookUser(1L,"1st_user","password", "Full name", USER_AUTHORITY),
         u2 = new User("2nd_user","password", USER_AUTHORITY),
         u3 = new PhonebookUser(2L,"3rd_user","x","Full Name", USER_AUTHORITY);

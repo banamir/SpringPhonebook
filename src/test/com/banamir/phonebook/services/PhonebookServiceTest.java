@@ -1,5 +1,6 @@
 package com.banamir.phonebook.services;
 
+import com.banamir.phonebook.AbstractTest;
 import com.banamir.phonebook.manager.PhonebookManager;
 import com.banamir.phonebook.model.PhonebookEntry;
 import com.banamir.phonebook.model.PhonebookUser;
@@ -7,7 +8,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 
-import static org.junit.Assert.fail;
 import static org.mockito.Mockito.*;
 
 import org.mockito.invocation.InvocationOnMock;
@@ -17,14 +17,17 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
+import static  com.banamir.phonebook.services.UserServiceTest.*;
+
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class PhonebookServiceTest extends UserServiceTest {
+public class PhonebookServiceTest extends AbstractTest {
 
-    private static PhonebookEntry
+
+    public static PhonebookEntry
             e1 = new PhonebookEntry(),
             e2 = new PhonebookEntry(),
             e3 = new PhonebookEntry(),
@@ -32,8 +35,8 @@ public class PhonebookServiceTest extends UserServiceTest {
             e5 = new PhonebookEntry(),
             e6 = new PhonebookEntry();
 
-    private static List<PhonebookEntry> u1EntryList = new ArrayList<>();
-    private static List<PhonebookEntry> u3EntryList = new ArrayList<>();
+    public static List<PhonebookEntry> u1EntryList = new ArrayList<>();
+    public static List<PhonebookEntry> u3EntryList = new ArrayList<>();
 
     static {
 

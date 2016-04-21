@@ -4,6 +4,7 @@ import com.banamir.phonebook.model.PhonebookUser;
 import com.banamir.phonebook.services.SecurityService;
 import com.banamir.phonebook.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -19,10 +20,10 @@ public class MainController {
 
 
     @Autowired
-    UserService userService;
+    private UserService userService;
 
     @Autowired
-    SecurityService securityService;
+    private SecurityService securityService;
 
     @RequestMapping("/login")
     public String login(@RequestParam(value = "error", required = false) String error,
@@ -31,7 +32,7 @@ public class MainController {
 
         if(error != null)
             model.addAttribute("error","Invalid username or password");
-        if(error != null)
+        if(message != null)
             model.addAttribute("message",message);
 
         return "login";
@@ -41,7 +42,7 @@ public class MainController {
     public String registration(@Valid @ModelAttribute("userForm") PhonebookUser user,  BindingResult bindingResult, Model model){
 
         if (bindingResult.hasErrors()) {
-            model.addAttribute("error",bindingResult.getAllErrors().get(0).toString());
+            model.addAttribute("error",bindingResult.getAllErrors().get(0).getDefaultMessage());
             model.addAttribute("user",user);
             return "registration";
         }
@@ -53,7 +54,7 @@ public class MainController {
             return "redirect:/phonebook";
 
         } catch (Exception e){
-            model.addAttribute("error",bindingResult.getAllErrors().get(0).toString());
+            model.addAttribute("error",e.getMessage());
             return "registration";
         }
 
@@ -66,5 +67,13 @@ public class MainController {
         model.addAttribute("user",securityService.getCurrentUser());
 
         return "phonebook";
+    }
+
+    public void setUserService(UserService userService) {
+        this.userService = userService;
+    }
+
+    public void setSecurityService(SecurityService securityService) {
+        this.securityService = securityService;
     }
 }

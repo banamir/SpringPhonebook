@@ -22,7 +22,7 @@ import java.util.Map;
 public class PhonebookEntryController {
 
     @Autowired
-    PhonebookService service;
+    private PhonebookService service;
 
     @RequestMapping(value = "/list", method = RequestMethod.GET)
      JsonMessage get(@RequestParam String filter){
@@ -66,4 +66,7 @@ public class PhonebookEntryController {
         return new JsonMessage(1L, exception.getMessage());
     }
 
+    public void setService(PhonebookService service) {
+        this.service = service;
+    }
 }

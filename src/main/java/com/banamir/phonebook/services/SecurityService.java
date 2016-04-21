@@ -38,4 +38,12 @@ public class SecurityService {
             SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
         }
     }
+
+    public void setUserService(UserService userService) {
+        this.userService = userService;
+    }
+
+    public void setAuthenticationManager(AuthenticationManager authenticationManager) {
+        this.authenticationManager = authenticationManager;
+    }
 }
