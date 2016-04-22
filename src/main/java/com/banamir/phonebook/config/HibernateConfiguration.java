@@ -6,6 +6,7 @@ import com.banamir.phonebook.storage.hibernate.PhonebookEntryDAO;
 import com.banamir.phonebook.storage.hibernate.UserDAO;
 import org.apache.commons.dbcp.BasicDataSource;
 import org.hibernate.SessionFactory;
+import org.hibernate.dialect.Dialect;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
@@ -15,21 +16,34 @@ import org.springframework.orm.hibernate4.LocalSessionFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.sql.DataSource;
+import java.util.Properties;
 
 
 @Configuration
-@ConditionalOnProperty(prefix = "storage", name = "type", value = "db")
+@ConditionalOnProperty(prefix = "storage", name = "type", havingValue = "db")
 @EnableTransactionManagement
 public class HibernateConfiguration implements DataStorageConfiguration {
 
-    @Value("{storage.db.url}")
+    @Value("${storage.db.url}")
     private String dataSourceUrl;
 
-    @Value("{storage.db.username}")
+    @Value("${storage.db.username}")
     private String dataSourceUsername;
 
-    @Value("{storage.db.Password}")
+    @Value("${storage.db.password}")
     private String dataSourcePassword;
+
+    @Value("${hibernate.dialect}")
+    private String hibernateDialect;
+
+    @Value("${hibernate.show_sql}")
+    private String hibernateShowSQL;
+
+    @Value("${hibernate.hbm2ddl.auto}")
+    private String hibernateHBM2DDLAuto;
+
+    @Value("${entitymanager.packagesToScan}")
+    private String hibernatePackagesToScan;
 
 
     @Bean(name = "dataSource", destroyMethod = "close")
@@ -45,20 +59,25 @@ public class HibernateConfiguration implements DataStorageConfiguration {
     }
 
     @Bean(name = "sessionFactory")
-    public SessionFactory sessionFactory(){
+    public LocalSessionFactoryBean sessionFactory(){
 
         LocalSessionFactoryBean factoryBean = new LocalSessionFactoryBean();
 
         factoryBean.setDataSource(dataSource());
-        factoryBean.setAnnotatedPackages("com.banamir.phonebook.model");
+        factoryBean.setAnnotatedPackages(hibernatePackagesToScan);
+        Properties hibernateProperties = new Properties();
+        hibernateProperties.put("hibernate.dialect", hibernateDialect);
+        hibernateProperties.put("hibernate.show_sql", hibernateShowSQL);
+        hibernateProperties.put("hibernate.hbm2ddl.auto", hibernateHBM2DDLAuto);
+        factoryBean.setHibernateProperties(hibernateProperties);
 
-        return factoryBean.getObject();
+        return factoryBean;
     }
 
     @Bean(name="transactionalManager")
     public HibernateTransactionManager transactionManager(){
         HibernateTransactionManager transactionManager = new HibernateTransactionManager();
-        transactionManager.setSessionFactory(sessionFactory());
+        transactionManager.setSessionFactory(sessionFactory().getObject());
         return  transactionManager;
     }
 
@@ -69,7 +88,7 @@ public class HibernateConfiguration implements DataStorageConfiguration {
 
         PhonebookEntryDAO phonebookManager = new PhonebookEntryDAO();
 
-        phonebookManager.setSessionFactory(sessionFactory());
+        phonebookManager.setSessionFactory(sessionFactory().getObject());
 
         return phonebookManager;
     }
@@ -80,7 +99,7 @@ public class HibernateConfiguration implements DataStorageConfiguration {
 
         UserDAO userManager = new UserDAO();
 
-        userManager.setSessionFactory(sessionFactory());
+        userManager.setSessionFactory(sessionFactory().getObject());
 
         return userManager;
     }

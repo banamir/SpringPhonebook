@@ -7,9 +7,6 @@ Spring Phonebook
 
     CREATE DATABASE `spring_phonebook` /*!40100 DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci */;
 
-    CREATE DATABASE `spring_phonebook` /*!40100 DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci */;
-
-
     CREATE TABLE `users` (
         `id` bigint(20) NOT NULL,
         `username` varchar(45) COLLATE utf8_unicode_ci NOT NULL,

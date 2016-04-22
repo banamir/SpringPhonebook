@@ -25,7 +25,7 @@ public class MainController {
     @Autowired
     private SecurityService securityService;
 
-    @RequestMapping("/login")
+    @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String login(@RequestParam(value = "error", required = false) String error,
                         @RequestParam(value = "message", required = false) String message,
                         Model model){
