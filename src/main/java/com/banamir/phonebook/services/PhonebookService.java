@@ -37,7 +37,7 @@ public class PhonebookService {
     public PhonebookEntry update(PhonebookEntry entry){
 
         if(! isEntryOfUser(entry))
-            throw new AccessDeniedException("The phonebook entry is not belong of current user");
+            throw new AccessDeniedException("The phonebook entry is not belong to the current user");
 
         entry.setUser(getUser());
 
@@ -47,7 +47,7 @@ public class PhonebookService {
     public Long delete(PhonebookEntry entry){
 
         if(! isEntryOfUser(entry))
-            throw new AccessDeniedException("The phonebook entry is not belong of current user");
+            throw new AccessDeniedException("The phonebook entry is not belong to the current user");
 
         return manager.deleteEntry(entry);
     }
@@ -56,7 +56,7 @@ public class PhonebookService {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
         if(auth == null )
-            throw new AccessDeniedException("The current user of must be authenticated");
+            throw new AccessDeniedException("The current user must be authenticated");
         String username = auth.getName();
         try{
             return (PhonebookUser) userService.loadUserByUsername(username);
