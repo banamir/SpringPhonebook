@@ -3,14 +3,18 @@ package com.banamir.phonebook.model;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.util.Collection;
 
 
+@Entity
 public class PhonebookUser implements UserDetails {
 
+    @Id
+    @GeneratedValue
     private Long id;
 
     @Size(min = 3)
@@ -19,11 +23,15 @@ public class PhonebookUser implements UserDetails {
 
     @Size(min = 3)
     @NotNull
-    @Pattern(regexp = "^(\\w+$", message = "Wrong format of phone number")
+    @Pattern(regexp = "^(\\w+)$", message = "Wrong format of phone number")
     private String username;
 
     @Size(min = 5)
     private String fullName;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name="user_id")
+    private Collection<PhonebookEntry> entries;
 
     private Collection<? extends  GrantedAuthority> authorities;
 

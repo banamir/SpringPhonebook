@@ -8,7 +8,6 @@ import org.springframework.web.servlet.config.annotation.*;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 @EnableWebMvc
-@ComponentScan
 @Configuration
 public class WebConfig extends WebMvcConfigurerAdapter {
 

@@ -117,6 +117,7 @@ public class PhonebookServiceTest extends AbstractTest {
             public PhonebookEntry answer(InvocationOnMock invocationOnMock) throws Throwable {
                 PhonebookEntry entry = (PhonebookEntry) invocationOnMock.getArguments()[0];
                 entry.setId(1L);
+                entry.setUser((PhonebookUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
                 u1EntryList.add(entry);
                 return entry;
             }
@@ -139,7 +140,7 @@ public class PhonebookServiceTest extends AbstractTest {
 
         verify(phonebookManager,times(1)).addEntry(any(PhonebookEntry.class));
 
-        assertEquals(u1, savedEntry.getUser());
+        assertEquals(((PhonebookUser)u1).getId(), savedEntry.getUserId());
 
     }
 

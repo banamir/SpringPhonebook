@@ -1,15 +1,21 @@
 package com.banamir.phonebook.model;
 
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
+@Entity
 public class PhonebookEntry {
 
+    @Id
+    @GeneratedValue
     Long id;
 
-    PhonebookUser user;
+    Long userId;
 
     @Size(min = 4)
     @NotNull
@@ -45,12 +51,12 @@ public class PhonebookEntry {
         return this;
     }
 
-    public PhonebookUser getUser() {
-        return user;
+    public Long getUserId() {
+        return userId;
     }
 
     public PhonebookEntry setUser(PhonebookUser user) {
-        this.user = user;
+        this.userId = user.getId();
         return this;
     }
 
@@ -116,4 +122,5 @@ public class PhonebookEntry {
         this.email = email;
         return this;
     }
+
 }

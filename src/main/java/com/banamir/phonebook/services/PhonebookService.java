@@ -67,7 +67,7 @@ public class PhonebookService {
     }
 
     protected boolean isEntryOfUser(PhonebookEntry entry){
-        return manager.getEntry(entry.getId()).getUser().equals(getUser());
+        return manager.getEntry(entry.getId()).getUserId().equals(getUser().getId());
 
     }
 
